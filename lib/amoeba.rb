@@ -324,7 +324,7 @@ module Amoeba
     # }}}
 
     def dup(options={})
-      @result = super()
+      @result = self.clone
 
       # Inherit Parent Settings {{{
       if !amoeba_conf.enabled && parent_amoeba_conf.inherit
@@ -383,16 +383,16 @@ module Amoeba
         # }}}
         # Exclusive Style {{{
         elsif amoeba_conf.excludes.count > 0
-          reflections.each do |r|
-            if not amoeba_conf.excludes.include?(r[0])
-              amo_process_association(r[0], r[1])
+          self.class.reflect_on_all_associations.each do |r|
+            if not amoeba_conf.excludes.include?(r.name)
+              amo_process_association(r.name, r)
             end
           end
         # }}}
         # Indiscriminate Style {{{
         else
-          reflections.each do |r|
-            amo_process_association(r[0], r[1])
+          self.class.reflect_on_all_associations.each do |r|
+            amo_process_association(r.name, r)
           end
         end
         # }}}
@@ -423,7 +423,7 @@ module Amoeba
 
         if not old_obj.nil?
           copy_of_obj = old_obj.dup
-          copy_of_obj[:"#{settings.foreign_key}"] = nil
+          copy_of_obj[:"#{settings.primary_key_name}"] = nil
 
           @result.send(:"#{relation_name}=", copy_of_obj)
         end
@@ -455,7 +455,7 @@ module Amoeba
 
           self.send(relation_name).each do |old_obj|
             copy_of_obj = old_obj.dup
-            copy_of_obj[:"#{settings.foreign_key}"] = nil
+            copy_of_obj[:"#{settings.primary_key_name}"] = nil
 
             # associate this new child to the new parent object
             @result.send(relation_name) << copy_of_obj

@@ -2,7 +2,7 @@ require 'active_record'
 require 'spec_helper'
 
 describe "amoeba" do
-  context "dup" do
+  context ".dup" do
     it "duplicates associated child records" do
       # Posts {{{
       old_post = Post.find(1)
@@ -33,7 +33,7 @@ describe "amoeba" do
       start_postnote_count = rs["note_count"]
 
       new_post.save
-      new_post.errors.messages.length.should == 0
+      new_post.errors.length.should == 0
 
       end_account_count = Account.all.count
       end_history_count = History.all.count
@@ -93,7 +93,7 @@ describe "amoeba" do
       old_author = Author.find(1)
       new_author = old_author.dup
       new_author.save
-      new_author.errors.messages.length.should == 0
+      new_author.errors.length.should == 0
       new_author.posts.first.custom_things.length.should == 3
       new_author.posts.first.custom_things.select{ |ct| ct.value == [] }.length.should == 1
       new_author.posts.first.custom_things.select{ |ct| ct.value == [1,2]}.length.should == 1
@@ -103,17 +103,17 @@ describe "amoeba" do
       # Base Class {{{
       old_product = Product.find(1)
 
-      start_image_count = Image.where(:product_id => old_product.id).count
+      start_image_count = Image.find(:all, :conditions => {:product_id => old_product.id}).count
       start_section_count = Section.all.length
       rs = ActiveRecord::Base.connection.select_one('SELECT COUNT(*) AS section_count FROM products_sections WHERE product_id = ?', old_product.id)
       start_prodsection_count = rs["section_count"]
 
       new_product = old_product.dup
       new_product.save
-      new_product.errors.messages.length.should == 0
+      new_product.errors.length.should == 0
 
-      end_image_count = Image.where(:product_id => old_product.id).count
-      end_newimage_count = Image.where(:product_id => new_product.id).count
+      end_image_count = Image.find(:all, :conditions => {:product_id => old_product.id}).count
+      end_newimage_count = Image.find(:all, :conditions => {:product_id => new_product.id}).count
       end_section_count = Section.all.length
       rs = ActiveRecord::Base.connection.select_one('SELECT COUNT(*) AS section_count FROM products_sections WHERE product_id = ?', 1)
       end_prodsection_count = rs["section_count"]
@@ -131,17 +131,17 @@ describe "amoeba" do
       # Shirt {{{
       old_product = Shirt.find(2)
 
-      start_image_count = Image.where(:product_id => old_product.id).count
+      start_image_count = Image.find(:all, :conditions => {:product_id => old_product.id}).count
       start_section_count = Section.all.length
       rs = ActiveRecord::Base.connection.select_one('SELECT COUNT(*) AS section_count FROM products_sections WHERE product_id = ?', old_product.id)
       start_prodsection_count = rs["section_count"]
 
       new_product = old_product.dup
       new_product.save
-      new_product.errors.messages.length.should == 0
+      new_product.errors.length.should == 0
 
-      end_image_count = Image.where(:product_id => old_product.id).count
-      end_newimage_count = Image.where(:product_id => new_product.id).count
+      end_image_count = Image.find(:all, :conditions => {:product_id => old_product.id}).count
+      end_newimage_count = Image.find(:all, :conditions => {:product_id => new_product.id}).count
       end_section_count = Section.all.length
       rs = ActiveRecord::Base.connection.select_one('SELECT COUNT(*) AS section_count FROM products_sections WHERE product_id = ?', 1)
       end_prodsection_count = rs["section_count"]
@@ -158,17 +158,17 @@ describe "amoeba" do
       # Necklace {{{
       old_product = Necklace.find(3)
 
-      start_image_count = Image.where(:product_id => old_product.id).count
+      start_image_count = Image.find(:all, :conditions => {:product_id => old_product.id}).count
       start_section_count = Section.all.length
       rs = ActiveRecord::Base.connection.select_one('SELECT COUNT(*) AS section_count FROM products_sections WHERE product_id = ?', old_product.id)
       start_prodsection_count = rs["section_count"]
 
       new_product = old_product.dup
       new_product.save
-      new_product.errors.messages.length.should == 0
+      new_product.errors.length.should == 0
 
-      end_image_count = Image.where(:product_id => old_product.id).count
-      end_newimage_count = Image.where(:product_id => new_product.id).count
+      end_image_count = Image.find(:all, :conditions => {:product_id => old_product.id}).count
+      end_newimage_count = Image.find(:all, :conditions => {:product_id => new_product.id}).count
       end_section_count = Section.all.length
       rs = ActiveRecord::Base.connection.select_one('SELECT COUNT(*) AS section_count FROM products_sections WHERE product_id = ?', 1)
       end_prodsection_count = rs["section_count"]

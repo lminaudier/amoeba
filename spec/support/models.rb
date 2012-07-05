@@ -92,7 +92,7 @@ class CustomThing < ActiveRecord::Base
     end
   end
 
-  serialize :value, ArrayPack
+  serialize :value, Array
 
   before_create :hydrate_me
   def hydrate_me
