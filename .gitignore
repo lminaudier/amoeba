@@ -3,3 +3,4 @@
 Gemfile.lock
 pkg/*
 spec/test.sqlite3
+bin
