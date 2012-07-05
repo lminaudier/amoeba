@@ -28,7 +28,7 @@ ActiveRecord::Schema.define do
     t.string :metal
   end
 
-  create_table :products_sections, :force => true do |t|
+  create_table :products_sections, :id => false, :force => true do |t|
     t.integer :section_id
     t.integer :product_id
   end
@@ -118,7 +118,7 @@ ActiveRecord::Schema.define do
     t.timestamps
   end
 
-  create_table :posts_tags, :force => true do |t|
+  create_table :posts_tags, :id => false, :force => true do |t|
     t.integer :post_id
     t.integer :tag_id
   end
@@ -128,7 +128,7 @@ ActiveRecord::Schema.define do
     t.timestamps
   end
 
-  create_table :notes_posts, :force => true do |t|
+  create_table :notes_posts, :id => false, :force => true do |t|
     t.integer :post_id
     t.integer :note_id
   end
